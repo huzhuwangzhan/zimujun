@@ -1,0 +1,5 @@
+model/*
+bin/*
+doc/*
+src/*
+.idea/*

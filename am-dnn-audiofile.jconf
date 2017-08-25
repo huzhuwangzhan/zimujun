@@ -1,0 +1,20 @@
+##
+## �f�B�N�e�[�V�����L�b�g DNN-HMM�ŉ������f���E���͐ݒ�
+##
+
+# �������f��: DNN-HMM
+-h model/dnn/binhmm.SID
+#-hlist model/dnn/logicalTri
+-hlist model/dnn/logicalTri.bin
+
+# DNN���f���͉��f�Z�b�g���قȂ邽�߁C�����������قȂ�
+-v model/lang_m/bccwj.60k.pdp.htkdic
+
+# ���ꃂ�f���d�݁E�P��}���y�i���e�B
+-lmp  14 0
+-lmp2 14 0
+
+# ����: �}�C�N
+-input rawfile atom-mac1.wav
+
+## EOF
