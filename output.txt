@@ -1,0 +1,371 @@
+STAT: include config: main.jconf
+STAT: include config: am-dnn.jconf
+STAT: parsing option string: "-htkconf model/dnn/config.lmfb -cvn -cmnload model/dnn/norm -cmnstatic"
+Stat: para: parsing HTK Config file: model/dnn/config.lmfb
+Warning: para: "SOURCEFORMAT" ignored (not supported, or irrelevant)
+Warning: para: "SOURCEKIND" ignored (not supported, or irrelevant)
+Stat: para: SOURCERATE=625
+Warning: para: TARGETKIND skipped (will be determined by AM header)
+Stat: para: TARGETRATE=100000.0
+Warning: para: "SAVECOMPRESSED" ignored (not supported, or irrelevant)
+Warning: para: "SAVEWITHCRC" ignored (not supported, or irrelevant)
+Stat: para: WINDOWSIZE=250000.0
+Stat: para: USEHAMMING=T
+Stat: para: PREEMCOEF=0.97
+Stat: para: NUMCHANS=40
+Stat: para: ENORMALISE=F
+Warning: para: "BYTEORDER" ignored (not supported, or irrelevant)
+STAT: jconf successfully finalized
+STAT: *** loading AM00 _default
+Stat: init_phmm: Reading in HMM definition
+Stat: binhmm-header: variance inversed
+Stat: read_binhmm: has inversed variances
+Stat: read_binhmm: binary format HMM definition
+Stat: read_binhmm: this HMM does not need multipath handling
+Stat: init_phmm: defined HMMs: 42176
+Stat: init_phmm: loading binary hmmlist
+Stat: load_hmmlist_bin: reading hmmlist
+Stat: aptree_read: 9157127 nodes (4578563 branch + 4578564 data)
+Stat: load_hmmlist_bin: reading pseudo phone set
+Stat: aptree_read: 110949 nodes (55474 branch + 55475 data)
+Stat: init_phmm: logical names: 4578564 in HMMList
+Stat: init_phmm: base phones:   168 used in logical
+Stat: init_phmm: finished reading HMM definitions
+Warning: number of filterbank was set to 40, estimated from vector length (120) and parameter type
+STAT: pseudo phones are loaded from binary hmmlist file
+Stat: hmm_lookup: 52517 pseudo phones are added to logical HMM list
+Stat: dnn_init: input: vec 120 * context 11 = 1320 dim
+Stat: dnn_init: input layer: 1320 dim
+Stat: dnn_init: 7 hidden layer(s): 2048 dim
+Stat: dnn_init: output layer: 4874 dim
+Stat: dnn_layer_load: loaded model/dnn/W_l1_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_l1_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/W_l2_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_l2_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/W_l3_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_l3_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/W_l4_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_l4_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/W_l5_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_l5_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/W_l6_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_l6_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/W_l7_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_l7_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/W_output_f4.npy
+Stat: dnn_layer_load: loaded model/dnn/bias_output_f4.npy
+Stat: dnn_init: state prior loaded: model/dnn/prior
+Stat: calc_dnn: FMA instructions built-in
+Stat: calc_dnn: AVX instructions built-in
+Stat: calc_dnn: SSE instructions built-in
+Stat: clac_dnn: use FMA SIMD instruction (256bit)
+STAT: *** AM00 _default loaded
+STAT: *** loading LM00 _default
+Stat: init_voca: read 64274 words
+Stat: init_ngram: reading in binary n-gram from model/lang_m/bccwj.60k.bingram
+Stat: ngram_read_bin: file version: 5
+Stat: ngram_read_bin_v5: this is backward 3-gram file
+stat: ngram_read_bin_v5: reading 1-gram
+stat: ngram_read_bin_v5: reading 2-gram
+stat: ngram_read_bin_v5: reading 3-gram
+Stat: ngram_read_bin_v5: reading additional LR 2-gram
+Stat: ngram_read_bin: making entry name index
+Stat: init_ngram: found unknown word entry "<unk>"
+Stat: init_ngram: finished reading n-gram
+Stat: init_ngram: mapping dictonary words to n-gram entries
+Stat: init_ngram: finished word-to-ngram mapping
+Warning: EOS word "</s>" has unigram prob of "-99"
+Warning: assigining value of BOS word "<s>": -2.048938
+STAT: *** LM00 _default loaded
+STAT: ------
+STAT: All models are ready, go for final fusion
+STAT: [1] create MFCC extraction instance(s)
+STAT: *** create MFCC calculation modules from AM
+STAT: AM 0 _default: create a new module MFCC01
+STAT: 1 MFCC modules created
+STAT: [2] create recognition processing instance(s) with AM and LM
+STAT: composing recognizer instance SR00 _default (AM00 _default, LM00 _default)
+STAT: Building HMM lexicon tree
+STAT: lexicon size: 411441+23665=435106
+STAT: coordination check passed
+STAT: make successor lists for unigram factoring
+STAT: done
+STAT:  1-gram factoring values has been pre-computed
+STAT: SR00 _default composed
+STAT: [3] initialize for acoustic HMM calculation
+Stat: outprob_init: state-level mixture PDFs, use calc_mix()
+Stat: addlog: generating addlog table (size = 1953 kB)
+Stat: addlog: addlog table generated
+STAT: [4] prepare MFCC storage(s)
+STAT: [5] prepare for real-time decoding
+Stat: wav2mfcc-pipe: reading initial cepstral mean/variance from file "model/dnn/norm"
+Stat: wav2mfcc-pipe: reading HTK-format cepstral vectors
+Stat: wav2mfcc-pipe: finished reading CMN/CVN parameter
+STAT: All init successfully done
+
+STAT: ###### initialize input device
+Stat: adin_darwin: sample rate = 16000
+Stat: adin_darwin: using device "Built-in Microphone" for input
+Stat: adin_darwin: sample rate 44100.000000
+	2 channels
+	32-bit sample
+Stat: adin_darwin: 512 buffer frames
+Stat: adin_darwin: ----- details of stream -----
+Stat: adin_darwin: sample rate: 44100.000000
+Stat: adin_darwin: format flags: [float][packed]
+Stat: adin_darwin: bytes per packet: 8
+Stat: adin_darwin: frames per packet: 1
+Stat: adin_darwin: bytes per frame: 8
+Stat: adin_darwin: channels per frame: 2
+Stat: adin_darwin: bits per channel: 32
+Stat: adin_darwin: -----------------------------------
+Stat: adin_darwin: ----- details of stream -----
+Stat: adin_darwin: sample rate: 44100.000000
+Stat: adin_darwin: format flags: [signed integer][packed]
+Stat: adin_darwin: bytes per packet: 2
+Stat: adin_darwin: frames per packet: 1
+Stat: adin_darwin: bytes per frame: 2
+Stat: adin_darwin: channels per frame: 1
+Stat: adin_darwin: bits per channel: 16
+Stat: adin_darwin: -----------------------------------
+Stat: adin_darwin: input device's buffer size (# of samples): 512
+Stat: adin_darwin: ----- details of stream -----
+Stat: adin_darwin: sample rate: 16000.000000
+Stat: adin_darwin: format flags: [signed integer][packed]
+Stat: adin_darwin: bytes per packet: 2
+Stat: adin_darwin: frames per packet: 1
+Stat: adin_darwin: bytes per frame: 2
+Stat: adin_darwin: channels per frame: 1
+Stat: adin_darwin: bits per channel: 16
+Stat: adin_darwin: -----------------------------------
+Stat: adin_darwin: CoreAudio: initialized
+----------------------- System Information begin ---------------------
+JuliusLib rev.4.4.2 (fast)
+
+Engine specification:
+ -  Base setup   : fast
+ -  Supported LM : DFA, N-gram, Word
+ -  Extension    :
+ -  Compiled by  : gcc -g -O2
+Library configuration: version 4.4.2
+ - Audio input
+    primary A/D-in driver   : coreaudio (MacOSX CoreAudio)
+    available drivers       :
+    wavefile formats        : RAW and WAV only
+    max. length of an input : 320000 samples, 150 words
+ - Language Model
+    class N-gram support    : yes
+    MBR weight support      : yes
+    word id unit            : short (2 bytes)
+ - Acoustic Model
+    multi-path treatment    : autodetect
+ - External library
+    file decompression by   : zlib library
+ - Process hangling
+    fork on adinnet input   : no
+ - built-in SIMD instruction set for DNN
+    SSE AVX FMA
+    FMA is available maximum on this cpu, use it
+
+
+------------------------------------------------------------
+Configuration of Modules
+
+ Number of defined modules: AM=1, LM=1, SR=1
+
+ Acoustic Model (with input parameter spec.):
+ - AM00 "_default"
+	hmmfilename=model/dnn/binhmm.SID
+	hmmmapfilename=model/dnn/logicalTri.bin
+
+ Language Model:
+ - LM00 "_default"
+	vocabulary filename=model/lang_m/bccwj.60k.pdp.htkdic
+	n-gram  filename=model/lang_m/bccwj.60k.bingram (binary format)
+
+ Recognizer:
+ - SR00 "_default" (AM00, LM00)
+
+------------------------------------------------------------
+Speech Analysis Module(s)
+
+[MFCC01]  for [AM00 _default]
+
+ Acoustic analysis condition:
+	       parameter = FBANK_D_A_Z (120 dim. from 40 cepstrum with CMN)
+	sample frequency = 16000 Hz
+	   sample period =  625  (1 = 100ns)
+	     window size =  400 samples (25.0 ms)
+	     frame shift =  160 samples (10.0 ms)
+	    pre-emphasis = 0.97
+	    # filterbank = 40
+	   cepst. lifter = 22
+	      raw energy = True
+	energy normalize = False
+	    delta window = 2 frames (20.0 ms) around
+	      acc window = 2 frames (20.0 ms) around
+	     hi freq cut = OFF
+	     lo freq cut = OFF
+	 zero mean frame = ON
+	       use power = OFF
+	             CVN = ON
+	            VTLN = OFF
+
+    spectral subtraction = off
+
+ cep. mean normalization = yes, CMN with static mean
+   static mean from file = model/dnn/norm
+ cep. var. normalization = yes, with a static variance
+static variance from file = model/dnn/norm
+
+	 base setup from = HTK Config (and HTK defaults)
+	  frame splicing = 11
+
+
+------------------------------------------------------------
+Acoustic Model(s)
+
+[AM00 "_default"]
+
+ HMM Info:
+    42176 models, 4874 states, 4874 mpdfs, 140145 Gaussians are defined
+	      model type = context dependency handling ON
+      training parameter = USER
+	   vector length = 40
+	number of stream = 1
+	     stream info = [0-39]
+	cov. matrix type = DIAGC
+	   duration type = NULLD
+	max mixture size = 98 Gaussians
+     max length of model = 7 states
+     logical base phones = 168
+       model skip trans. = not exist, no multi-path handling
+
+ AM Parameters:
+        Gaussian pruning = none (full computation)  (-gprune)
+    short pause HMM name = "sp" specified, "sp" applied (physical)  (-sp)
+  cross-word CD on pass1 = handle by approx. (use 3-best of same LC)
+
+ DNN parameters:
+          DNN input dim. = 1320 (120 x 11)
+         DNN output dim. = 4874
+      # of hidden layers = 7
+       hidden layer dim. = 2048
+      state prior factor = 1.000000
+              batch size = 1
+
+------------------------------------------------------------
+Language Model(s)
+
+[LM00 "_default"] type=n-gram
+
+ N-gram info:
+	            spec = 3-gram, backward (right-to-left)
+	        OOV word = <unk>(id=2)
+	    wordset size = 59084
+	  1-gram entries =      59084  (  0.5 MB)
+	  2-gram entries =    2476660  ( 27.7 MB) (64% are valid contexts)
+	  3-gram entries =    7894442  ( 52.8 MB)
+	LR 2-gram entries=    2476660  (  9.7 MB)
+	           pass1 = given additional forward 2-gram
+
+ Vocabulary Info:
+        vocabulary size  = 64274 words, 366102 models
+        average word len = 5.7 models, 17.1 states
+       maximum state num = 54 nodes per word
+       transparent words = not exist
+       words under class = 9444 words
+
+ Parameters:
+	(-silhead)head sil word = 0: "<s> @0.000000 [] sp_S(sp_S)"
+	(-siltail)tail sil word = 1: "</s> @0.000000 [。] sp_S(sp_S)"
+
+------------------------------------------------------------
+Recognizer(s)
+
+[SR00 "_default"]  AM00 "_default"  +  LM00 "_default"
+
+ Lexicon tree:
+	 total node num = 435106
+	  root node num =    860
+	(148 hi-freq. words are separated from tree lexicon)
+	  leaf node num =  64274
+	 fact. node num =  64274
+
+ Inter-word N-gram cache: 
+	root node to be cached = 234 / 859 (isolated only)
+	word ends to be cached = 59084 (all)
+	  max. allocation size = 55MB
+	(-lmp)  pass1 LM weight = 14.0  ins. penalty = +0.0
+	(-lmp2) pass2 LM weight = 14.0  ins. penalty = +0.0
+	(-transp)trans. penalty = +0.0 per word
+	(-cmalpha)CM alpha coef = 0.050000
+
+ Search parameters: 
+	    multi-path handling = no
+	(-b) trellis beam width = 1500
+	(-bs)score pruning thres= disabled
+	(-n)search candidate num= 30
+	(-s)  search stack size = 500
+	(-m)    search overflow = after 10000 hypothesis poped
+	        2nd pass method = searching sentence, generating N-best
+	(-b2)  pass2 beam width = 100
+	(-lookuprange)lookup range= 5  (tm-5 <= t <tm+5)
+	(-sb)2nd scan beamthres = 80.0 (in logscore)
+	(-n)        search till = 30 candidates found
+	(-output)    and output = 1 candidates out of above
+	 IWCD handling:
+	   1st pass: approximation (use 3-best of same LC)
+	   2nd pass: loose (apply when hypo. is popped and scanned)
+	 factoring score: 1-gram prob. (statically assigned beforehand)
+	progressive output on 1st pass
+	short pause segmentation = off
+	        progout interval = 300 msec
+	fall back on search fail = off, returns search failure
+
+------------------------------------------------------------
+Decoding algorithm:
+
+	1st pass input processing = real time, on-the-fly
+	1st pass method = 1-best approx. generating indexed trellis
+	output word confidence measure based on search-time scores
+
+------------------------------------------------------------
+FrontEnd:
+
+ Input stream:
+	             input type = waveform
+	           input source = microphone
+	    device API          = default
+	          sampling freq. = 16000 Hz
+	         threaded A/D-in = supported, on
+	   zero frames stripping = on
+	         silence cutting = on
+	             level thres = 2000 / 32767
+	         zerocross thres = 60 / sec.
+	             head margin = 300 msec.
+	             tail margin = 400 msec.
+	              chunk size = 1000 samples
+	    long-term DC removal = off
+	    level scaling factor = 1.00 (disabled)
+	      reject short input = < 800 msec
+	      reject  long input = off
+
+----------------------- System Information end -----------------------
+
+Notice for feature extraction (01),
+	*************************************************************
+	* Cepstral mean and variance norm. for real-time decoding:  *
+	* initial mean loaded from file, updating per utterance.    *
+	* static variance loaded from file, apply it constantly.    *
+	* NOTICE: The first input may not be recognized, since      *
+	*         cepstral mean is unstable on startup.             *
+	*************************************************************
+
+STAT: AD-in thread created
+Warning: strip: sample 0-87 has zero value, stripped
+pass1_best:pass1_best: pass1_best:  わたしpass1_best:  わたし はpass1_best:  わたし はpass1_best:  わたし は           
+WARNING: 00 _default: hypothesis stack exhausted, terminate search now
+sentence1:  わたし は 。
+pass1_best:pass1_best:  おpass1_best:  本人pass1_best:  こんにちはpass1_best:  こんにちはpass1_best:  こんにちは           
+sentence1:  こんにちは 。
