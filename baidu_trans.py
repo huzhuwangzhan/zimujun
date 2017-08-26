@@ -4,8 +4,6 @@ import urllib
 import random
 from global_vars import *
 
-
-
 def form_url(q,fromLang='en',toLang='zh'):
 
     appid = '20170824000076401'
@@ -45,7 +43,7 @@ def read_input(INPUT_FILE):
 
 def main():
 
-    fromLang='en'
+    fromLang='ja'
     toLang='zh'
 
     content = read_input(INPUT_FILE)
