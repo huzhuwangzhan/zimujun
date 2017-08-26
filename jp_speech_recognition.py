@@ -1,5 +1,6 @@
 import subprocess
 
+<<<<<<< HEAD
 command = './bin/osx/julius -C main.jconf -C am-dnn.jconf -input rawfile -filelist audio_input.txt -demo -dnnconf julius.dnnconf $*'
 
 p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE) # p = subprocess.call(command, shell=True)
@@ -17,3 +18,11 @@ text_file.write("%s" % out_result)
 text_file.close()
 
 
+=======
+
+
+command = './bin/osx/julius -C main.jconf -C am-dnn.jconf -input rawfile -filelist audio_inputs.txt -demo -dnnconf julius.dnnconf $*'
+
+p = subprocess.call(command, shell=True)
+
+>>>>>>> 26d64b665848f443bef3e9213844147fc902cf81
