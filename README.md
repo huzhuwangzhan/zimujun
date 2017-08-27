@@ -42,3 +42,7 @@ This package contains executables of Julius, Japanese acoustic models (AM) and J
 More documents are available within the toolkit in Japanese.
 
 For more information about Julius, see the Julius page.
+
+# 字幕菌
+subtitle man
+
