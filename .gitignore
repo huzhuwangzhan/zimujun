@@ -2,4 +2,5 @@ model/*
 bin/*
 doc/*
 src/*
+pocketsphinx-python-master/*
 .idea/*
