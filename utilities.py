@@ -90,7 +90,7 @@ def translate(SOURCE):
 
     return dst
 
-# Tested:  translate_fileio('output.txt','translate_results.txt')
+# Tested:  translate_fileio('trans_input_test.txt','translate_results.txt')
 
 def translate_fileio(INPUT,OUTPUT,fromLang='jp',toLang='zh'):
 
@@ -110,5 +110,10 @@ def jp_stt_trans_fileio(INPUTFILE,OUTPUTFILE,TRANSOUTPUT,fromLang='jp',toLang='z
     translate_fileio(OUTPUTFILE,TRANSOUTPUT,fromLang,toLang)
 
 
-
-
+# Test: cut_audio('audio_5.wav', 'audio_5_test.wav',10,20)
+def cut_audio(AUDIO_INPUT, AUDIO_OUTPUT,t1,t2):
+    t1 = 1000*t1 #Works in milliseconds
+    t2 = 1000*t2
+    newAudio = AudioSegment.from_wav(AUDIO_INPUT)
+    newAudio = newAudio[t1:t2]
+    newAudio.export(AUDIO_OUTPUT, format="wav") #
