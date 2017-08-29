@@ -1,17 +1,17 @@
 ##
-## ƒfƒBƒNƒe[ƒVƒ‡ƒ“ƒLƒbƒg GMM-HMM”Å‰¹‹¿ƒ‚ƒfƒ‹E“ü—ÍÝ’è
+## ï¿½fï¿½Bï¿½Nï¿½eï¿½[ï¿½Vï¿½ï¿½ï¿½ï¿½ï¿½Lï¿½bï¿½g GMM-HMMï¿½Å‰ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½ï¿½Eï¿½ï¿½ï¿½ÍÝ’ï¿½
 ##
 
-# ‰¹‹¿ƒ‚ƒfƒ‹: GMM-HMM
+# ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½fï¿½ï¿½: GMM-HMM
 -h model/phone_m/jnas-tri-3k16-gid.binhmm
 #-hlist model/phone_m/logicalTri
 -hlist model/phone_m/logicalTri-3k16-gid.bin
 
-# Œ¾Œêƒ‚ƒfƒ‹d‚ÝE’PŒê‘}“üƒyƒiƒ‹ƒeƒB
+# ï¿½ï¿½ï¿½êƒ‚ï¿½fï¿½ï¿½ï¿½dï¿½ÝEï¿½Pï¿½ï¿½}ï¿½ï¿½ï¿½yï¿½iï¿½ï¿½ï¿½eï¿½B
 -lmp  10 0
 -lmp2 10 0
 
-# “ü—Í: ƒ}ƒCƒN
--input mic
+# ï¿½ï¿½ï¿½ï¿½: ï¿½}ï¿½Cï¿½N
+#-input mic
 
 ## EOF

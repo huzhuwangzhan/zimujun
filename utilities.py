@@ -22,7 +22,8 @@ def create_stt_command(INPUTFILE):
 
     print 'forming Julius speech 2 text shell command'
 
-    command = './bin/osx/julius -C main.jconf -C am-dnn.jconf -input rawfile -filelist '+ INPUTFILE + ' -demo -dnnconf julius.dnnconf $*'
+    #command = './bin/osx/julius -C main.jconf -C am-dnn.jconf -input rawfile -filelist '+ INPUTFILE + ' -demo -dnnconf julius.dnnconf $*'
+    command = './bin/osx/julius -C main.jconf -C am-gmm.jconf -input rawfile -filelist '+ INPUTFILE + ' -demo $*'
 
     print 'shell command formed: ' + command
 
