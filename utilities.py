@@ -118,3 +118,4 @@ def cut_audio(AUDIO_INPUT, AUDIO_OUTPUT,t1,t2):
     newAudio = AudioSegment.from_wav(AUDIO_INPUT)
     newAudio = newAudio[t1:t2]
     newAudio.export(AUDIO_OUTPUT, format="wav") #
+
