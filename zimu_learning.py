@@ -79,6 +79,25 @@ import glob
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 from pydub.silence import detect_nonsilent
+import psutil
+
+
+def processExists(processname):
+    '''Windows only '''
+    tlcall = 'TASKLIST', '/FI', 'imagename eq %s' % processname
+    # shell=True hides the shell window, stdout to PIPE enables
+    # communicate() to get the tasklist command result
+    tlproc = subprocess.Popen(tlcall, shell=True, stdout=subprocess.PIPE)
+    # trimming it to the actual lines with information
+    tlout = tlproc.communicate()[0].strip().split('\r\n')
+    # if TASKLIST returns single line without processname: it's not running
+    if len(tlout) > 1 and processname in tlout[-1]:
+        print('process "%s" is running!' % processname)
+        return True
+    else:
+        print(tlout[0])
+        print('process "%s" is NOT running!' % processname)
+        return False
 
 INPUT_AUDIOFILE = 'Chinese_story_wav.wav'
 sound_file = AudioSegment.from_wav(INPUT_AUDIOFILE)
@@ -91,18 +110,43 @@ for i, chunk in enumerate(audio_chunks):
     print("exporting", out_file)
     chunk.export(out_file, format="wav")
 
+i=0
 for file in glob.glob(".//splitAudio//*.wav"):
-    INPUT_FILE = 'helloworld.txt'
+    i += 1
+    INPUT_FILE = str(i)+'helloworld.txt'
     if not os.path.isfile(INPUT_FILE):
-        f = open(INPUT_FILE,'w')
+        f = open(INPUT_FILE, 'w')
         f.close()
-    os.system('echo ",\n" >> '+INPUT_FILE)
     data, samplerate = sf.read(file) #data in bit,  hence len(data)/samplerate = [s]
-    # sd.query_devices()
     sd.play(data,samplerate,device=3)
+
     command = 'open -a TextEdit '+INPUT_FILE
     p = subprocess.Popen(command, shell=True,stdout= subprocess.PIPE)
     time.sleep(3)
     pyautogui.press(['fn','fn'])
+    time.sleep(len(data)/samplerate+5)
+    pyautogui.press(['fn', 'fn'])
+    time.sleep(2)
+    print("...Dictation service should be closed already now")
+    time.sleep(2)
 
-#endregion - pipe
+    command = 'pgrep TextEdit'
+    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+    pid = int(str(p.stdout.readlines())[3:-4])
+    # proc = psutil.Process(pid)
+    # if not proc.is_running():
+    # command = 'kill '+str(pid)
+    command = 'osascript -e \' tell application "TextEdit" to quit\' '
+    # 'killall TextEdit'
+    p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+    time.sleep(2)
+    print("...TextEdit should be closed already now")
+    # f = open(INPUT_FILE, 'a')
+    # f.write(",\n")
+    # f.close()
+
+
+
+
+
+#endregion pipe
