@@ -1,11 +1,11 @@
 ####################################
 #region Cut audio
 from pydub import AudioSegment
-    t1 = 1000 #Works in milliseconds
-    t2 = 1000*10
-    newAudio = AudioSegment.from_wav("audio_5.wav")
-    newAudio = newAudio[t1:t2]
-    newAudio.export('audio_5_10s.wav', format="wav") #
+t1 = 1000*61 #Works in milliseconds
+t2 = 1000*121
+newAudio = AudioSegment.from_wav("Chinese_music.wav")
+newAudio = newAudio[t1:t2]
+newAudio.export('Chinese_music_1min.wav', format="wav") #
 #endregion
 
 #region Method 1: one single wav file to text file using mac dictation by calling Audacity
@@ -99,7 +99,7 @@ def processExists(processname):
         print('process "%s" is NOT running!' % processname)
         return False
 
-INPUT_AUDIOFILE = 'Chinese_story_wav.wav'
+INPUT_AUDIOFILE = 'Chinese_music_1min.wav'
 sound_file = AudioSegment.from_wav(INPUT_AUDIOFILE)
 # print('average loudness of the sound is ', sound_file.dBFS)
 audio_chunks, not_silence_ranges = split_on_silence(sound_file,min_silence_len=500,silence_thresh=-40,keep_silence=3000)
@@ -110,10 +110,13 @@ for i, chunk in enumerate(audio_chunks):
     print("exporting", out_file)
     chunk.export(out_file, format="wav")
 
+
+
+
 i=0
-for file in glob.glob(".//splitAudio//*.wav"):
+for file in glob.glob("./*.wav"):
     i += 1
-    INPUT_FILE = str(i)+'helloworld.txt'
+    INPUT_FILE = 'helloworld.txt'
     if not os.path.isfile(INPUT_FILE):
         f = open(INPUT_FILE, 'w')
         f.close()
@@ -145,8 +148,33 @@ for file in glob.glob(".//splitAudio//*.wav"):
     # f.write(",\n")
     # f.close()
 
-
-
-
-
 #endregion pipe
+
+
+#region ICA
+from sklearn.decomposition import FastICA
+ica = FastICA(n_components=2)
+S_ = ica.fit_transform(data)  # Reconstruct signals
+
+plt.figure()
+plt.subplot(2,1,1)
+plt.plot(data[:10000,1],'b')
+plt.subplot(2,1,2)
+plt.plot(S_[:10000,1],'r')
+
+from nussl import AudioSignal, ICA
+signal = AudioSignal('./zimujun/Chinese_music_1min.wav')
+
+for i in range(X.shape[1]):
+    observations.append(AudioSignal(audio_data_array=X[:, i], sample_rate = 44100))
+ica = ICA(input_audio_signal=signal)
+ica.run()
+sources = ica.make_audio_signals()
+#endregion
+
+
+#region
+
+python separateLeadStereoParam.py Chinese_music_1min.wav
+
+#endregion
