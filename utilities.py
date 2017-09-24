@@ -12,6 +12,7 @@ import glob
 import re
 import soundfile as sf
 import sounddevice as sd
+import pyautogui
 
 def read_input(INPUT_FILE):
 
@@ -202,7 +203,7 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
         print("...Dictation service should be closed already now")
         time.sleep(2)
 
-        command = 'pgrep TextEditc'
+        command = 'pgrep TextEditc'+TEMP_FILE
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         pid = int(str(p.stdout.readlines())[3:-4])
         command = 'osascript -e \' tell application "TextEdit" to quit\' '
