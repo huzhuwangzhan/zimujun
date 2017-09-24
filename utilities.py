@@ -120,13 +120,7 @@ def cut_audio(AUDIO_INPUT, AUDIO_OUTPUT,t1,t2):
     newAudio.export(AUDIO_OUTPUT, format="wav") #
 
 #
-import os
-import time
-from pydub import AudioSegment
-from pydub.silence import split_on_silence
-from pydub.silence import detect_nonsilent
-import glob
-import subprocess
+
 '''Only used by splitAudio. Modified from pydub.slience.split_on_slience'''
 def split_on_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, keep_silence=100):
     """
@@ -207,7 +201,6 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
     files = glob.glob("*.txt")
     concat = ','.join([open(f).read() for f in files])
 
-    import re
     pattern = re.compile(r'(,\s){2,}')
     concat = re.sub(pattern,',',concat)
 
