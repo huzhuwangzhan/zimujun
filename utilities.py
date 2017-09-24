@@ -125,6 +125,8 @@ import time
 from pydub import AudioSegment
 from pydub.silence import split_on_silence
 from pydub.silence import detect_nonsilent
+import glob
+import subprocess
 '''Only used by splitAudio. Modified from pydub.slience.split_on_slience'''
 def split_on_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, keep_silence=100):
     """
@@ -169,3 +171,49 @@ def splitAudio(INPUT_AUDIOFILE,OUTPUT_SPLITAUDIO_LOC,min_silence_len=500,silence
     print("Successfully splitted ", INPUT_AUDIOFILE, " to ", OUTPUT_SPLITAUDIO_LOC)
     return OUTPUT_targetfolder
 
+
+def audio_2_text(AUDIO_DIR,TEXT_FILE):
+
+    i=0
+    for file in glob.glob(AUDIO_DIR+"*.wav"):
+        i += 1
+        TEMP_FILE = AUDIO_DIR+str(i)+TEXT_FILE
+        if not os.path.isfile(TEMP_FILE):
+            f = open(TEMP_FILE, 'w')
+            f.close()
+
+        data, samplerate = sf.read(file) #data in bit,  hence len(data)/samplerate = [s]
+        sd.play(data,samplerate,device=2)
+
+        command = 'open -a TextEdit '+TEMP_FILE
+        p = subprocess.Popen(command, shell=True,stdout= subprocess.PIPE)
+        time.sleep(3)
+        pyautogui.press(['fn','fn'])
+        time.sleep(len(data)/samplerate+5)
+        pyautogui.press(['fn', 'fn'])
+        time.sleep(2)
+        print("...Dictation service should be closed already now")
+        time.sleep(2)
+
+        command = 'pgrep TextEditc
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        pid = int(str(p.stdout.readlines())[3:-4])
+        command = 'osascript -e \' tell application "TextEdit" to quit\' '
+        # 'killall TextEdit'
+        p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
+        time.sleep(2)
+        print("...TextEdit should be closed already now")
+
+    files = glob.glob("*.txt")
+    concat = ','.join([open(f).read() for f in files])
+
+    import re
+    pattern = re.compile(r'(,\s){2,}')
+    concat = re.sub(pattern,',',concat)
+
+    text_file = open('all.txt', 'w')
+    text_file.write("%s" % concat)
+    print('writing output to file ' + concat)
+    text_file.close()
+
+    os.system("sed 's/,\{2,\}/,/g' all.txt > final_all.txt")
