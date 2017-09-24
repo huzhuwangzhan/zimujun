@@ -119,3 +119,53 @@ def cut_audio(AUDIO_INPUT, AUDIO_OUTPUT,t1,t2):
     newAudio = newAudio[t1:t2]
     newAudio.export(AUDIO_OUTPUT, format="wav") #
 
+#
+import os
+import time
+from pydub import AudioSegment
+from pydub.silence import split_on_silence
+from pydub.silence import detect_nonsilent
+'''Only used by splitAudio. Modified from pydub.slience.split_on_slience'''
+def split_on_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, keep_silence=100):
+    """
+    audio_segment - original pydub.AudioSegment() object
+    min_silence_len - (in ms) minimum length of a silence to be used for
+        a split. default: 1000ms
+    silence_thresh - (in dBFS) anything quieter than this will be
+        considered silence. default: -16dBFS
+    keep_silence - (in ms) amount of silence to leave at the beginning
+        and end of the chunks. Keeps the sound from sounding like it is
+        abruptly cut off. (default: 100ms)
+    """
+
+    not_silence_ranges = detect_nonsilent(audio_segment, min_silence_len, silence_thresh)
+
+    chunks = []
+    for start_i, end_i in not_silence_ranges:
+        start_i = max(0, start_i - keep_silence)
+        end_i += keep_silence
+
+        chunks.append(audio_segment[start_i:end_i])
+
+    return chunks, not_silence_ranges
+
+# splitAudio("Chinese_story_wav.wav","./")
+def splitAudio(INPUT_AUDIOFILE,OUTPUT_SPLITAUDIO_LOC,min_silence_len=500,silence_thresh=-40,keep_silence=3000):
+    if not os.path.isfile(INPUT_AUDIOFILE):
+        print(INPUT_AUDIOFILE, " not found!")
+        return None
+    sound_file = AudioSegment.from_wav(INPUT_AUDIOFILE)
+    audio_chunks, not_silence_ranges = split_on_silence(sound_file, min_silence_len,silence_thresh,keep_silence)
+
+    if "/" in INPUT_AUDIOFILE:
+        INPUT_AUDIOFILE = INPUT_AUDIOFILE.split('/')[-1]
+    OUTPUT_targetfolder = OUTPUT_SPLITAUDIO_LOC + "/split_" + INPUT_AUDIOFILE + "_" + time.strftime("%Y_%m_%d_%H_%M_%S")
+    for i, chunk in enumerate(audio_chunks):
+        if not os.path.exists(OUTPUT_targetfolder):
+            os.mkdir(OUTPUT_targetfolder)
+        out_file = OUTPUT_targetfolder+"/chunk{0}.wav".format(i)
+        print("exporting", out_file)
+        chunk.export(out_file, format="wav")
+    print("Successfully splitted ", INPUT_AUDIOFILE, " to ", OUTPUT_SPLITAUDIO_LOC)
+    return OUTPUT_targetfolder
+
