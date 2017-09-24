@@ -12,6 +12,7 @@ import glob
 import re
 import soundfile as sf
 import sounddevice as sd
+import pyautogui
 
 def read_input(INPUT_FILE):
 
@@ -175,7 +176,7 @@ def splitAudio(INPUT_AUDIOFILE,OUTPUT_SPLITAUDIO_LOC,min_silence_len=500,silence
         print("exporting", out_file)
         chunk.export(out_file, format="wav")
     print("Successfully splitted ", INPUT_AUDIOFILE, " to ", OUTPUT_SPLITAUDIO_LOC)
-    return OUTPUT_targetfolder
+    return OUTPUT_targetfolder,not_silence_ranges
 
 
 # audio_2_text('split_Chinese_story_wav.wav_2017_09_23_21_18_35/','dictation_output.txt')
@@ -190,7 +191,7 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
             f.close()
 
         data, samplerate = sf.read(file) #data in bit,  hence len(data)/samplerate = [s]
-        sd.play(data,samplerate,device=2)
+        sd.play(data,samplerate,device=3)
 
         command = 'open -a TextEdit '+TEMP_FILE
         p = subprocess.Popen(command, shell=True,stdout= subprocess.PIPE)
@@ -202,7 +203,7 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
         print("...Dictation service should be closed already now")
         time.sleep(2)
 
-        command = 'pgrep TextEditc'
+        command = 'pgrep TextEdit'
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         pid = int(str(p.stdout.readlines())[3:-4])
         command = 'osascript -e \' tell application "TextEdit" to quit\' '
@@ -211,17 +212,30 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
         time.sleep(2)
         print("...TextEdit should be closed already now")
 
-    files = glob.glob("*.txt")
+
+    files = glob.glob(AUDIO_DIR+"*.txt")
+    files.sort(key=os.path.getmtime)
     concat = ','.join([open(f).read() for f in files])
 
     pattern = re.compile(r'(,\s){2,}')
     concat = re.sub(pattern,',',concat)
 
-    text_file = open('all.txt', 'w')
+    text_file = open(AUDIO_DIR+'all.txt', 'w')
     text_file.write("%s" % concat)
     print('writing output to file ' + concat)
     text_file.close()
 
+    os.chdir(AUDIO_DIR)
     os.system("sed 's/,\{2,\}/,/g' all.txt > final_all.txt")
 
+def main():
+    INPUT_AUDIOFILE = "Chinese_story_wav.wav"
+    OUTPUT_SPLITAUDIO_LOC = "./"
+    OUTPUT_targetfolder, not_silence_ranges= splitAudio(INPUT_AUDIOFILE, OUTPUT_SPLITAUDIO_LOC, min_silence_len=500, silence_thresh=-40, keep_silence=3000)
+    print("OUTPUT_SPLITAUDIO_LOC",OUTPUT_targetfolder)
+    audio_2_text(OUTPUT_targetfolder+'/','dictation_output.txt')
+    # audio_2_text('split_Chinese_story_wav.wav_2017_09_23_21_18_35/', 'dictation_output.txt')
+
+if __name__ == '__main__':
+    main()
 
