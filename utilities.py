@@ -203,6 +203,7 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
         print("...Dictation service should be closed already now")
         time.sleep(2)
 
+
         command = 'pgrep TextEdit'
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         pid = int(str(p.stdout.readlines())[3:-4])
