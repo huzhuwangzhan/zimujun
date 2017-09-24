@@ -1,5 +1,17 @@
-from libraries import *
-#from run_stt import run_stt
+import httplib
+import md5
+import urllib
+import random
+import subprocess
+from pydub import AudioSegment
+import os
+import time
+from pydub.silence import split_on_silence
+from pydub.silence import detect_nonsilent
+import glob
+import re
+import soundfile as sf
+import sounddevice as sd
 
 def read_input(INPUT_FILE):
 
@@ -166,6 +178,7 @@ def splitAudio(INPUT_AUDIOFILE,OUTPUT_SPLITAUDIO_LOC,min_silence_len=500,silence
     return OUTPUT_targetfolder
 
 
+# audio_2_text('split_Chinese_story_wav.wav_2017_09_23_21_18_35/','dictation_output.txt')
 def audio_2_text(AUDIO_DIR,TEXT_FILE):
 
     i=0
@@ -189,7 +202,7 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
         print("...Dictation service should be closed already now")
         time.sleep(2)
 
-        command = 'pgrep TextEditc
+        command = 'pgrep TextEditc'
         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE)
         pid = int(str(p.stdout.readlines())[3:-4])
         command = 'osascript -e \' tell application "TextEdit" to quit\' '
@@ -210,3 +223,5 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
     text_file.close()
 
     os.system("sed 's/,\{2,\}/,/g' all.txt > final_all.txt")
+
+
