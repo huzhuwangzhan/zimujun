@@ -13,6 +13,8 @@ import re
 import soundfile as sf
 import sounddevice as sd
 import pyautogui
+import datetime
+import numpy as np
 
 def read_input(INPUT_FILE):
 
@@ -159,7 +161,7 @@ def split_on_silence(audio_segment, min_silence_len=1000, silence_thresh=-16, ke
     return chunks, not_silence_ranges
 
 # splitAudio("Chinese_story_wav.wav","./")
-def splitAudio(INPUT_AUDIOFILE,OUTPUT_SPLITAUDIO_LOC,min_silence_len=500,silence_thresh=-40,keep_silence=3000):
+def splitAudio(INPUT_AUDIOFILE,OUTPUT_SPLITAUDIO_LOC,min_silence_len=500,silence_thresh=-40,keep_silence=100):
     if not os.path.isfile(INPUT_AUDIOFILE):
         print(INPUT_AUDIOFILE, " not found!")
         return None
@@ -180,7 +182,7 @@ def splitAudio(INPUT_AUDIOFILE,OUTPUT_SPLITAUDIO_LOC,min_silence_len=500,silence
 
 
 # audio_2_text('split_Chinese_story_wav.wav_2017_09_23_21_18_35/','dictation_output.txt')
-def audio_2_text(AUDIO_DIR,TEXT_FILE):
+def audio_2_text(AUDIO_DIR,TEXT_FILE,not_silence_ranges):
 
     i=0
     for file in glob.glob(AUDIO_DIR+"*.wav"):
@@ -216,7 +218,15 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
 
     files = glob.glob(AUDIO_DIR+"*.txt")
     files.sort(key=os.path.getmtime)
-    concat = ','.join([open(f).read() for f in files])
+
+
+
+    sec_not_silence_range = list(map(lambda (x, y): np.array((x, y)) * 0.001, not_silence_ranges))
+    h_m_s_not_silence_range = list(map(lambda (x, y): (str(datetime.timedelta(seconds=x)), str(datetime.timedelta(seconds=y))),sec_not_silence_range))
+    h_m_s_not_silence_range = [h_m_s_not_silence_range_i[0] + ' --> ' + h_m_s_not_silence_range_i[1] for h_m_s_not_silence_range_i in h_m_s_not_silence_range]
+
+    content = [(str(idx)+'\n'+timerange+'\n'+open(f).read()+'\n') for (idx,timerange,f) in zip(range(1,len(files),1),h_m_s_not_silence_range,files)]
+    concat = '\n'.join(content)
 
     pattern = re.compile(r'(,\s){2,}')
     concat = re.sub(pattern,',',concat)
@@ -226,15 +236,15 @@ def audio_2_text(AUDIO_DIR,TEXT_FILE):
     print('writing output to file ' + concat)
     text_file.close()
 
-    os.chdir(AUDIO_DIR)
-    os.system("sed 's/,\{2,\}/,/g' all.txt > final_all.txt")
+    # os.chdir(AUDIO_DIR)
+    # os.system("sed 's/,\{2,\}/,/g' all.txt > final_all.txt")
 
 def main():
     INPUT_AUDIOFILE = "Chinese_story_wav.wav"
     OUTPUT_SPLITAUDIO_LOC = "./"
-    OUTPUT_targetfolder, not_silence_ranges= splitAudio(INPUT_AUDIOFILE, OUTPUT_SPLITAUDIO_LOC, min_silence_len=500, silence_thresh=-40, keep_silence=3000)
+    OUTPUT_targetfolder, not_silence_ranges= splitAudio(INPUT_AUDIOFILE, OUTPUT_SPLITAUDIO_LOC, min_silence_len=500, silence_thresh=-40, keep_silence=100)
     print("OUTPUT_SPLITAUDIO_LOC",OUTPUT_targetfolder)
-    audio_2_text(OUTPUT_targetfolder+'/','dictation_output.txt')
+    audio_2_text(OUTPUT_targetfolder+'/','dictation_output.txt',not_silence_ranges)
     # audio_2_text('split_Chinese_story_wav.wav_2017_09_23_21_18_35/', 'dictation_output.txt')
 
 if __name__ == '__main__':
